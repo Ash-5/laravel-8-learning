@@ -3,6 +3,7 @@
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
@@ -17,35 +18,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [PostController::class, 'index'])->name('home');
 
-    return view('posts', [
-        'posts' => Post::latest()->get()
-    ]);
-});
-
-Route::get('post/{post}', function (Post $post){
-    // Find a post by its file name and try to pass it to a view called "post"
+Route::get('post/{post}', [PostController::class, 'show']);
 
 
-    return view('post', [
-        'post' => $post
-    ]);
+Route::get('categories/{category:slug}', [PostController::class, 'showCategoryPost']);
 
-});
-
-
-Route::get('categories/{category:slug}', function (Category $category) {
-    return view('posts', [
-        'posts' => $category->posts
-    ]);
-});
-
-Route::get('author/{author:username}', function (User $author) {
-//    dd($author);
-
-    return view('posts', [
-        'posts' => $author->posts
-    ]);
-
-});
+Route::get('author/{author:username}', [PostController::class, 'showAuthorsPost']);

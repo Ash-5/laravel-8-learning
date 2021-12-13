@@ -6,6 +6,12 @@
 </head>
 <body>
 
+<div style="margin: 20px">
+    <form action="#" method="get">
+        <input type="text" name="search" placeholder="Find Post" value="{{ request('search') }}">
+    </form>
+</div>
+
     @yield('content')
 
 </body>
